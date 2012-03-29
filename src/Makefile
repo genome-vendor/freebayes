@@ -179,6 +179,6 @@ version:
 
 clean:
 	rm -rf *.o *.cgh *~ freebayes alleles ../bin/freebayes ../bin/alleles ../vcflib/*.o ../vcflib/tabixpp/*.{o,a}
-	cd $(BAMTOOLS_ROOT)/build && make clean
+	if [ -e $(BAMTOOLS_ROOT)/build ]; then (cd $(BAMTOOLS_ROOT)/build && make clean) fi
 	cd ../vcflib/smithwaterman && make clean
 
