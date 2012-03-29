@@ -7,10 +7,10 @@ DEB_DIR=debian/${PKG}
 %:
 	dh $@
 
-build:
+clean:
 	git submodule update --init --recursive
-	make
-
+	make clean
+    
 override_dh_auto_install:
 	mkdir -p ${DEB_DIR}/usr/lib/${PKG}/bin
 	mkdir -p ${DEB_DIR}/usr/bin
@@ -18,8 +18,6 @@ override_dh_auto_install:
 		install -m755 bin/$${filename} ${DEB_DIR}/usr/lib/${PKG}/bin/$${filename}; \
 		echo "export PATH=/usr/lib/${PKG}/bin/:\$$PATH; exec $$filename \"$@\"" >  ${DEB_DIR}/usr/bin/$${filename}${VER}; \
 		done
-
-
 
 override_dh_auto_test:
 	echo "This version had no test/ subdirectory.  Skipping tests"
