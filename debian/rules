@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+
+PKG=freebayes0.9.4
+VER=0.9.4
+DEB_DIR=debian/${PKG}
+
+%:
+	dh $@
+
+build:
+	git submodule update --init --recursive
+	make
+
+override_dh_auto_install:
+	mkdir -p ${DEB_DIR}/usr/lib/${PKG}/bin
+	mkdir -p ${DEB_DIR}/usr/bin
+	for filename in 'freebayes' 'bamleftalign'; do \
+		install -m755 bin/$${filename} ${DEB_DIR}/usr/lib/${PKG}/bin/$${filename}; \
+		echo "export PATH=/usr/lib/${PKG}/bin/:\$$PATH; exec $$filename \"$@\"" >  ${DEB_DIR}/usr/bin/$${filename}${VER}; \
+		done
+
+
+
+override_dh_auto_test:
+	echo "This version had no test/ subdirectory.  Skipping tests"
