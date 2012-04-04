@@ -1,3 +1,9 @@
+freebayes0.9.4 (0.9.4-1) unstable; urgency=low
+
+  * fix typo in debian/rules
+
+ -- Nathan Nutter <nnutter@genome.wustl.edu>  Tue, 03 Apr 2012 19:00:00 -0500
+
 freebayes0.9.4 (0.9.4) unstable; urgency=low
 
   * make a package
