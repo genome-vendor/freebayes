@@ -1,3 +1,9 @@
+freebayes0.9.4 (0.9.4-2) lucid; urgency=low
+
+  * cleaned up rules and fixed /usr/bin/*
+
+ -- Nathaniel Nutter <nnutter@genome.wustl.edu>  Thu, 21 Jun 2012 18:09:40 -0500
+
 freebayes0.9.4 (0.9.4-1) unstable; urgency=low
 
   * fix typo in debian/rules
