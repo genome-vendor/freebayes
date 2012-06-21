@@ -1,23 +1,32 @@
 #!/usr/bin/make -f
 
-PKG=freebayes0.9.4
+PRG=freebayes
 VER=0.9.4
-DEB_DIR=debian/${PKG}
+PKG=$(PRG)$(VER)
+DEB_DIR=debian/$(PKG)
+PKG_LIB_DIR=/usr/lib/$(PKG)
+BIN_LIST=freebayes \
+         bamleftalign
 
 %:
 	dh $@
 
-clean:
-	git submodule update --init --recursive
-	make clean
-    
-override_dh_auto_install:
-	mkdir -p ${DEB_DIR}/usr/lib/${PKG}/bin
-	mkdir -p ${DEB_DIR}/usr/bin
-	for filename in 'freebayes' 'bamleftalign'; do \
-		install -m755 bin/$${filename} ${DEB_DIR}/usr/lib/${PKG}/bin/$${filename}; \
-		echo "export PATH=/usr/lib/${PKG}/bin/:\$$PATH; exec $$filename \"$$@\"" >  ${DEB_DIR}/usr/bin/$${filename}${VER}; \
-		done
+override_dh_auto_clean:
+	git submodule foreach find . -delete
+	dh_auto_clean
 
-override_dh_auto_test:
-	echo "This version had no test/ subdirectory.  Skipping tests"
+override_dh_auto_build:
+	git submodule update --init --recursive
+	dh_auto_build
+
+override_dh_auto_install:
+	mkdir -p $(DEB_DIR)/usr/bin $(DEB_DIR)$(PKG_LIB_DIR)/bin
+	for BIN in $(BIN_LIST); do \
+	echo 'This line is here because install bugs out if it is first command!'\
+	install -m755 $${BIN} $(DEB_DIR)$(PKG_LIB_DIR)/bin/$${BIN}\
+	echo \
+	'#!/bin/sh\n'\
+	'export PATH=$(PKG_LIB_DIR)/bin:$$PATH\n'\
+	'exec' "$${BIN}" '"$$@"'\
+	> $(DEB_DIR)/usr/bin/$${BIN}$(VER);\
+	done
