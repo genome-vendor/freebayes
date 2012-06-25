@@ -1,7 +1,7 @@
 Source: freebayes0.9.4
 Section: science
 Priority: optional
-Build-Depends: cmake, zlib1g-dev, git-core
+Build-Depends: debhelper (>= 7), cmake, zlib1g-dev, git-core
 Maintainer: Erik Garrison <erik.garrison@bc.edu>
 Standards-Version: 3.8.3
 Homepage: http://bioinformatics.bc.edu/marthlab/Main_Page
